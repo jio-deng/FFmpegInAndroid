@@ -13,14 +13,14 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @Description get data from asserts
+ * @description get data from asserts
  *
  * Created by deng on 2019/7/14.
  */
 public class AssertsUtil {
 
     private AssertsUtil( ){
-
+        // do nothing
     }
 
     /**

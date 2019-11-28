@@ -23,7 +23,7 @@ Java_com_dzm_ffmpeg_MainActivity_stringFromJNI(
  */
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_dzm_ffmpeg_Mp3Encoder_getVersion(JNIEnv *env, jobject instance) {
+Java_com_dzm_ffmpeg_Mp3Encoder_getVersion(JNIEnv *env, jclass instance) {
     return env->NewStringUTF(get_lame_version());
 }
 
@@ -54,7 +54,7 @@ Java_com_dzm_ffmpeg_Mp3Encoder_init(JNIEnv *env, jclass type, jstring pcmFilePat
  */
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_dzm_ffmpeg_Mp3Encoder_encode(JNIEnv *env, jobject instance) {
+Java_com_dzm_ffmpeg_Mp3Encoder_encode(JNIEnv *env, jclass instance) {
     encoder->Encode();
 }
 
