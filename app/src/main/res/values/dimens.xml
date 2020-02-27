@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--main activity-->
+    <dimen name="home_btn_margin_top">15dp</dimen>
+    <dimen name="home_btn_margin_start">15dp</dimen>
+</resources>

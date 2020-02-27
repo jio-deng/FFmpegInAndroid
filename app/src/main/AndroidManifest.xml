@@ -13,7 +13,7 @@
     <application
         android:allowBackup="true"
         android:name=".MyApplication"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_video"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -28,6 +28,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".yinshipin.ConvertPcm2Mp3Activity" />
+        <activity android:name=".wanandroid.WanAndroidActivity" />
+        <activity android:name=".wanandroid.WxOffAccountDataActivity" />
+        <activity android:name=".wanandroid.WanHomeActivity" />
 
 
         <service android:name=".hotfix.andfix.AndFixService" />

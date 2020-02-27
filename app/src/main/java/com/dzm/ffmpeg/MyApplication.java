@@ -2,11 +2,9 @@ package com.dzm.ffmpeg;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 
 import com.dzm.ffmpeg.hotfix.andfix.AndFixService;
-import com.dzm.ffmpeg.utils.Utils;
 import com.squareup.leakcanary.LeakCanary;
 
 import cn.bmob.v3.Bmob;
@@ -60,5 +58,9 @@ public class MyApplication extends Application {
     /**  **/
     public static MyApplication getInstance() {
         return sMe;
+    }
+
+    public static boolean isAppDebug() {
+        return isAppDebug;
     }
 }

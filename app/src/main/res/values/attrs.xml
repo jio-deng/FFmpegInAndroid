@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--SpannableTextView-->
+    <declare-styleable name="SpannableTextView">
+        <attr name="textColor" format="color|reference" />
+        <attr name="difText" format="string|reference" />
+        <attr name="difTextColor" format="color|reference" />
+        <attr name="underLine" format="string|reference" />
+    </declare-styleable>
+</resources>

@@ -20,6 +20,10 @@ public class Utils {
         return MyApplication.getInstance();
     }
 
+    public static boolean isAppDebug() {
+        return MyApplication.isAppDebug();
+    }
+
     /**
      * see if main process is running already
      *
