@@ -8,24 +8,24 @@
     tools:context="com.dzm.ffmpeg.MainActivity">
 
     <Button
-        android:id="@+id/btn_get_official_accounts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="get official accounts"
-        android:layout_marginTop="@dimen/home_btn_margin_top"
-        android:layout_marginStart="@dimen/home_btn_margin_start"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <Button
         android:id="@+id/btn_wan_android_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="home page"
+        android:text="WanAndroid Home Page \n 首页文章列表"
         android:layout_marginTop="@dimen/home_btn_margin_top"
         android:layout_marginStart="@dimen/home_btn_margin_start"
-        app:layout_constraintTop_toBottomOf="@+id/btn_get_official_accounts"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_get_official_accounts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="get official accounts \n 获取公众号列表"
+        android:layout_marginTop="@dimen/home_btn_margin_top"
+        android:layout_marginStart="@dimen/home_btn_margin_start"
+        app:layout_constraintTop_toBottomOf="@+id/btn_wan_android_home"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_official_accounts"
@@ -33,7 +33,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/btn_wan_android_home"
+        app:layout_constraintTop_toBottomOf="@+id/btn_get_official_accounts"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

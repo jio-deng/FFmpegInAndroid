@@ -24,11 +24,9 @@ import java.util.List;
  */
 public class OfficialAccountsAdapter extends RecyclerView.Adapter<OfficialAccountsAdapter.OffiAccountsViewHolder> {
 
-    private Context mContext;
     private List<WxOfficialAccount> datas;
 
-    public OfficialAccountsAdapter(Context context, List<WxOfficialAccount> datas) {
-        mContext = context;
+    public OfficialAccountsAdapter(List<WxOfficialAccount> datas) {
         this.datas = datas;
     }
 
@@ -52,9 +50,9 @@ public class OfficialAccountsAdapter extends RecyclerView.Adapter<OfficialAccoun
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, WxOffAccountDataActivity.class);
+                Intent intent = new Intent(holder.itemView.getContext(), WxOffAccountDataActivity.class);
                 intent.putExtra("accountId", data.courseId);
-                mContext.startActivity(intent);
+                holder.itemView.getContext().startActivity(intent);
             }
         });
     }

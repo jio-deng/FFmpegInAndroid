@@ -22,8 +22,11 @@ allprojects {
         google()
         jcenter()
 
-        //Bmob的maven仓库地址
+        // Bmob的maven仓库地址
         maven { url "https://raw.github.com/bmob/bmob-android-sdk/master" }
+
+        // BridgeWebView
+        maven { url "https://jitpack.io" }
     }
 }
 

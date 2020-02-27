@@ -105,6 +105,9 @@ dependencies {
     //解决Glide找不到Android声明库问题
     annotationProcessor 'androidx.annotation:annotation:1.1.0'
 
+    // TODO webview
+    implementation 'com.github.open-android:BridgeWebView:v1.0'
+
     // bmob
     implementation 'cn.bmob.android:bmob-sdk:3.7.3-rc1'
 

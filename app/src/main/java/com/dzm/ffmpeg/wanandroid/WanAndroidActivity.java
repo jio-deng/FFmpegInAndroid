@@ -51,7 +51,7 @@ public class WanAndroidActivity extends AppCompatActivity {
                     @Override
                     public void accept(BaseResponse<List<WxOfficialAccount>> wxOfficialAccounts) throws Exception {
                         if (adapter == null) {
-                            adapter = new OfficialAccountsAdapter(WanAndroidActivity.this, wxOfficialAccounts.data);
+                            adapter = new OfficialAccountsAdapter(wxOfficialAccounts.data);
                             recyclerView.setAdapter(adapter);
                         } else {
                             adapter.setData(wxOfficialAccounts.data);

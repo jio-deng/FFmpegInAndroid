@@ -1,5 +1,7 @@
 package com.dzm.ffmpeg.wanandroid.adapters;
 
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dzm.ffmpeg.R;
 import com.dzm.ffmpeg.data.WanHomeData;
+import com.dzm.ffmpeg.webview.WebViewActivity;
 
 /**
  * @author Johnny Deng
@@ -34,7 +37,19 @@ public class WanHomeAdapter extends RecyclerView.Adapter<WanHomeAdapter.WanHomeV
     @Override
     public void onBindViewHolder(@NonNull WanHomeViewHolder holder, int position) {
         WanHomeData.DatasBean bean = data.datas.get(position);
-        holder.mName.setText(bean.title);
+        holder.mTitle.setText(bean.title);
+        holder.mAuthor.setText(TextUtils.isEmpty(bean.author) ? bean.shareUser : bean.author);
+        holder.mPraise.setText(String.valueOf(bean.zan));
+        holder.mTime.setText(bean.niceDate);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(holder.itemView.getContext(), WebViewActivity.class);
+                intent.putExtra("link", bean.link);
+                holder.itemView.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -43,11 +58,18 @@ public class WanHomeAdapter extends RecyclerView.Adapter<WanHomeAdapter.WanHomeV
     }
 
     class WanHomeViewHolder extends RecyclerView.ViewHolder {
-        TextView mName;
+        TextView mTitle;
+        TextView mAuthor;
+        TextView mPraise;
+        TextView mTime;
 
         public WanHomeViewHolder(@NonNull View itemView) {
             super(itemView);
-            mName = itemView.findViewById(R.id.name);
+
+            mTitle = itemView.findViewById(R.id.title);
+            mAuthor = itemView.findViewById(R.id.author);
+            mPraise = itemView.findViewById(R.id.praise);
+            mTime = itemView.findViewById(R.id.time);
         }
     }
 }

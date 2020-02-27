@@ -32,6 +32,7 @@
         <activity android:name=".wanandroid.WanAndroidActivity" />
         <activity android:name=".wanandroid.WxOffAccountDataActivity" />
         <activity android:name=".wanandroid.WanHomeActivity" />
+        <activity android:name=".webview.WebViewActivity" />
 
 
         <service android:name=".hotfix.andfix.AndFixService" />

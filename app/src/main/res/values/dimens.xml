@@ -2,5 +2,5 @@
 <resources>
     <!--main activity-->
     <dimen name="home_btn_margin_top">15dp</dimen>
-    <dimen name="home_btn_margin_start">15dp</dimen>
+    <dimen name="home_btn_margin_start">30dp</dimen>
 </resources>
