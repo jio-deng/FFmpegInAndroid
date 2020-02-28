@@ -1,6 +1,8 @@
 package com.dzm.ffmpeg.utils;
 
 import android.app.ActivityManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Process;
 
@@ -41,5 +43,14 @@ public class Utils {
             }
         }
         return false;
+    }
+
+
+    /**
+     * 将内容复制到剪切板
+     */
+    public static void clipToBoard(String text) {
+        ClipboardManager cm = (ClipboardManager) Utils.getApplication().getSystemService(Context.CLIPBOARD_SERVICE);
+        cm.setPrimaryClip(ClipData.newPlainText(null, text));
     }
 }

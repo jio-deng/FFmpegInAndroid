@@ -61,4 +61,14 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_wan_android"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/btn_morse_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="morse-code"
+        android:layout_marginTop="@dimen/home_btn_margin_top"
+        android:layout_marginStart="@dimen/home_btn_margin_start"
+        app:layout_constraintTop_toBottomOf="@+id/btn_test_notification"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

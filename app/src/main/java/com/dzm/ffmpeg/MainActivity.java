@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.dzm.ffmpeg.tools.MorseCodeActivity;
 import com.dzm.ffmpeg.utils.NotificationUtil;
 import com.dzm.ffmpeg.wanandroid.WanAndroidActivity;
 import com.dzm.ffmpeg.yinshipin.ConvertPcm2Mp3Activity;
@@ -54,6 +55,15 @@ public class MainActivity extends AppCompatActivity {
                 String contentTitle = "Notification";
                 String contentText = "This is a test notification.";
                 NotificationUtil.notificate(MainActivity.this, id, channelId, name, ticker, contentTitle, contentText);
+            }
+        });
+
+        // jump to : morse-code
+        findViewById(R.id.btn_morse_code).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MorseCodeActivity.class);
+                startActivity(intent);
             }
         });
     }
