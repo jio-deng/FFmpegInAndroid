@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dzm.ffmpeg.R;
@@ -20,12 +22,9 @@ import com.dzm.ffmpeg.webview.WebViewActivity;
  * @description wan android home page adapter
  * @date 2020/2/27 16:41
  */
-public class WanHomeAdapter extends RecyclerView.Adapter<WanHomeAdapter.WanHomeViewHolder> {
-    private WanHomeData data;
-
-    public void setData(WanHomeData data) {
-        this.data = data;
-        notifyDataSetChanged();
+public class WanHomeAdapter extends PagedListAdapter<WanHomeData.DatasBean, WanHomeAdapter.WanHomeViewHolder> {
+    public WanHomeAdapter() {
+        super(DIFF_Callback);
     }
 
     @NonNull
@@ -36,7 +35,7 @@ public class WanHomeAdapter extends RecyclerView.Adapter<WanHomeAdapter.WanHomeV
 
     @Override
     public void onBindViewHolder(@NonNull WanHomeViewHolder holder, int position) {
-        WanHomeData.DatasBean bean = data.datas.get(position);
+        WanHomeData.DatasBean bean = getDataBean(position);
         holder.mTitle.setText(bean.title);
         holder.mAuthor.setText(TextUtils.isEmpty(bean.author) ? bean.shareUser : bean.author);
         holder.mPraise.setText(String.valueOf(bean.zan));
@@ -52,9 +51,12 @@ public class WanHomeAdapter extends RecyclerView.Adapter<WanHomeAdapter.WanHomeV
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return data == null ? 0 : data.datas.size();
+    private WanHomeData.DatasBean getDataBean(int pos) {
+        if (getItemCount() == 0 || pos >= getItemCount()) {
+            return null;
+        } else {
+            return getItem(pos);
+        }
     }
 
     class WanHomeViewHolder extends RecyclerView.ViewHolder {
@@ -72,4 +74,16 @@ public class WanHomeAdapter extends RecyclerView.Adapter<WanHomeAdapter.WanHomeV
             mTime = itemView.findViewById(R.id.time);
         }
     }
+
+    private static final DiffUtil.ItemCallback<WanHomeData.DatasBean> DIFF_Callback = new DiffUtil.ItemCallback<WanHomeData.DatasBean>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull WanHomeData.DatasBean oldItem, @NonNull WanHomeData.DatasBean newItem) {
+            return oldItem.id == newItem.id;
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull WanHomeData.DatasBean oldItem, @NonNull WanHomeData.DatasBean newItem) {
+            return oldItem.apkLink.equals(newItem.apkLink);
+        }
+    };
 }

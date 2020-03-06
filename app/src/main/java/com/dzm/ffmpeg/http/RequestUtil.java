@@ -3,6 +3,9 @@ package com.dzm.ffmpeg.http;
 import com.dzm.ffmpeg.data.WanHomeData;
 import com.dzm.ffmpeg.http.base.BaseObserver;
 import com.dzm.ffmpeg.http.base.BaseResponse;
+import com.dzm.ffmpeg.utils.LogUtils;
+
+import java.io.IOException;
 
 /**
  * @author Johnny Deng
@@ -21,5 +24,21 @@ public class RequestUtil {
                 .getWanAndroidHomePageData(page)
                 .compose(RxHelper.toBaseResponse())
                 .subscribe(observer);
+    }
+
+    /**
+     * 首页文章列表---同步
+     * @param page 页码，拼接在连接中，从0开始。
+     */
+    public static BaseResponse<WanHomeData> getWanAndroidHomePageDataSync(int page) {
+        BaseResponse<WanHomeData> baseResponse;
+        try {
+            baseResponse = RxHelper.parseResponse(RetrofitFactory.getWanApiService()
+                    .getWanAndroidHomePageDataSync(page).execute());
+        } catch (IOException e) {
+            LogUtils.e(e);
+            baseResponse = BaseResponse.build(e.getMessage());
+        }
+        return baseResponse;
     }
 }

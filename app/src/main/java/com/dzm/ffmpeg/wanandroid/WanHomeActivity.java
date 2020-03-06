@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,8 +29,6 @@ public class WanHomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private WanHomeAdapter adapter;
 
-    private int page = 0; // TODO
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,21 +41,18 @@ public class WanHomeActivity extends AppCompatActivity {
 
         adapter = new WanHomeAdapter();
         recyclerView.setAdapter(adapter);
-
-        mViewModel.getWanAndroidHomePageData(page);
     }
 
     private void initViewModel() {
         mViewModel = ViewModelProviders.of(this).get(WanHomeViewModel.class);
-        mViewModel.getWanHomeData().observe(this, new Observer<WanHomeData>() {
+        mViewModel.getRepository().getPagedFeed().observe(this, new Observer<PagedList<WanHomeData.DatasBean>>() {
             @Override
-            public void onChanged(WanHomeData wanHomeData) {
-                // TODO add to adapter
-                adapter.setData(wanHomeData);
+            public void onChanged(PagedList<WanHomeData.DatasBean> wanHomeData) {
+                adapter.submitList(wanHomeData);
             }
         });
 
-        mViewModel.getWanHomeStatus().observe(this, new Observer<WanHomeStatus>() {
+        mViewModel.getRepository().getWanHomeStatus().observe(this, new Observer<WanHomeStatus>() {
             @Override
             public void onChanged(WanHomeStatus wanHomeStatus) {
                 ToastUtil.makeText(WanHomeActivity.this, wanHomeStatus.msg);

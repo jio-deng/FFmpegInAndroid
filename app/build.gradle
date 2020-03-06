@@ -90,9 +90,12 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjava"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroid"
 
-    // ViewModel and LiveData
+    // Android Architecture Components
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle"
     implementation "androidx.paging:paging-runtime:$rootProject.paging_version"
+    implementation "androidx.paging:paging-runtime:$rootProject.paging_version" // For Kotlin use paging-runtime-ktx
+    // optional - RxJava support
+    implementation "androidx.paging:paging-rxjava2:$rootProject.paging_version" // For Kotlin use paging-rxjava2-ktx
 
     // exoplayer
     implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
@@ -125,6 +128,9 @@ dependencies {
 
     // Optional, if you use support library fragments:
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$rootProject.leakcanary"
+
+    // alternatively - without Android dependencies for testing
+    testImplementation "androidx.paging:paging-common:$rootProject.paging_version" // For Kotlin use paging-common-ktx
 
 //    testImplementation 'junit:junit:4.12'
 //    androidTestImplementation 'androidx.test:runner:1.1.0'

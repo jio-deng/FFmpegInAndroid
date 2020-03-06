@@ -53,4 +53,11 @@ public interface WanApiService {
     @GET(value = "article/list/{page}/json")
     Observable<Response<BaseResponse<WanHomeData>>> getWanAndroidHomePageData(@Path("page") int page);
 
+    /**
+     * 首页文章列表---同步
+     * @param page 页码，拼接在连接中，从0开始。
+     */
+    @GET(value = "article/list/{page}/json")
+    Call<BaseResponse<WanHomeData>> getWanAndroidHomePageDataSync(@Path("page") int page);
+
 }
