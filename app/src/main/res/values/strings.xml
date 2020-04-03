@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">FFmpegInAndroid</string>
+
+    <!--know cars-->
+    <string name="file_path_cars">cars.json</string>
 </resources>

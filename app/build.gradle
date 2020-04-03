@@ -91,11 +91,18 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxAndroid"
 
     // Android Architecture Components
+    // lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle"
+    // paging
     implementation "androidx.paging:paging-runtime:$rootProject.paging_version"
     implementation "androidx.paging:paging-runtime:$rootProject.paging_version" // For Kotlin use paging-runtime-ktx
-    // optional - RxJava support
     implementation "androidx.paging:paging-rxjava2:$rootProject.paging_version" // For Kotlin use paging-rxjava2-ktx
+    // room
+    implementation "androidx.room:room-runtime:$rootProject.room_version"
+    annotationProcessor "androidx.room:room-compiler:$rootProject.room_version" // For Kotlin use kapt instead of annotationProcessor
+    implementation "androidx.room:room-ktx:$rootProject.room_version" // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-rxjava2:$rootProject.room_version" // optional - RxJava support for Room
+    testImplementation "androidx.room:room-testing:$rootProject.room_version" // Test helpers
 
     // exoplayer
     implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
@@ -110,6 +117,9 @@ dependencies {
 
     // TODO webview
     implementation 'com.github.open-android:BridgeWebView:v1.0'
+
+    // TextView
+    implementation 'com.text:alginlib:1.0.1'
 
     // bmob
     implementation 'cn.bmob.android:bmob-sdk:3.7.3-rc1'

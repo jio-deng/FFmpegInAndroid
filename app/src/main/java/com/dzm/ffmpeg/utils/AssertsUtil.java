@@ -31,7 +31,7 @@ public class AssertsUtil {
      *
      * */
     public static String readFileFromAssets(Context context, String fileName) throws IOException, IllegalArgumentException {
-        if (null == context || TextUtils.isEmpty( fileName )){
+        if (null == context || TextUtils.isEmpty(fileName)) {
             throw new IllegalArgumentException( "bad arguments!" );
         }
 

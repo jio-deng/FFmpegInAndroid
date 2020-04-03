@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.dzm.ffmpeg.cars.KnowCarsActivity;
 import com.dzm.ffmpeg.tools.MorseCodeActivity;
 import com.dzm.ffmpeg.utils.NotificationUtil;
 import com.dzm.ffmpeg.wanandroid.WanAndroidActivity;
@@ -63,6 +64,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MorseCodeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // jump to : know_cars
+        findViewById(R.id.btn_know_cars).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, KnowCarsActivity.class);
                 startActivity(intent);
             }
         });

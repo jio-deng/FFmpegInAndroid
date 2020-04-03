@@ -30,13 +30,13 @@ public class WanAndroidRepository {
         mWanHomeStatus = new MutableLiveData<>();
 
         PagedList.Config config = new PagedList.Config.Builder()
-                .setPageSize(50)
-                .setEnablePlaceholders(true)
-                .setInitialLoadSizeHint(50)
-                .setPrefetchDistance(10)
+                .setPageSize(50)             // 设置每次从DataSource中加载多少条数据
+                .setEnablePlaceholders(true) // 是否启用placeholder
+                .setInitialLoadSizeHint(50)  // 第一次加载多少条
+                .setPrefetchDistance(10)     // 距离已加载数据末尾多少条时，加载下一组数据
                 .build();
 
-        pagedFeed = new LivePagedListBuilder<>(new WanHomeDataSourceFactory(), config).build();
+        pagedFeed = new LivePagedListBuilder<Integer, WanHomeData.DatasBean>(new WanHomeDataSourceFactory(), config).build();
     }
 
     public LiveData<PagedList<WanHomeData.DatasBean>> getPagedFeed() {

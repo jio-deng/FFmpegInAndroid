@@ -34,6 +34,7 @@
         <activity android:name=".wanandroid.WanHomeActivity" />
         <activity android:name=".webview.WebViewActivity" />
         <activity android:name=".tools.MorseCodeActivity" />
+        <activity android:name=".cars.KnowCarsActivity" />
 
 
         <service android:name=".hotfix.andfix.AndFixService" />
