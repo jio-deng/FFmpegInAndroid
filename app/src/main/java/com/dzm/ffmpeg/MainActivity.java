@@ -2,16 +2,19 @@ package com.dzm.ffmpeg;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dzm.ffmpeg.cars.KnowCarsActivity;
+import com.dzm.ffmpeg.optimize.AopOnClick;
 import com.dzm.ffmpeg.tools.MorseCodeActivity;
 import com.dzm.ffmpeg.utils.NotificationUtil;
 import com.dzm.ffmpeg.wanandroid.WanAndroidActivity;
 import com.dzm.ffmpeg.yinshipin.ConvertPcm2Mp3Activity;
+import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * @author Johnny Deng
@@ -24,12 +27,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         // jump to : lame convert pcm to mp3
         findViewById(R.id.btn_convert_pcm_2_mp3).setOnClickListener(new View.OnClickListener() {
             @Override
+            @AopOnClick
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ConvertPcm2Mp3Activity.class);
                 startActivity(intent);
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         // jump to : wan android
         findViewById(R.id.btn_wan_android).setOnClickListener(new View.OnClickListener() {
             @Override
+            @AopOnClick(5000)
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, WanAndroidActivity.class);
                 startActivity(intent);
@@ -48,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         // test notification
         findViewById(R.id.btn_test_notification).setOnClickListener(new View.OnClickListener() {
             @Override
+            @AopOnClick(5000)
             public void onClick(View v) {
                 int id = 1;
                 String channelId = "my_channel_01";
@@ -62,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         // jump to : morse-code
         findViewById(R.id.btn_morse_code).setOnClickListener(new View.OnClickListener() {
             @Override
+            @AopOnClick(5000)
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MorseCodeActivity.class);
                 startActivity(intent);
@@ -71,9 +79,20 @@ public class MainActivity extends AppCompatActivity {
         // jump to : know_cars
         findViewById(R.id.btn_know_cars).setOnClickListener(new View.OnClickListener() {
             @Override
+            @AopOnClick(5000)
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, KnowCarsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+
+        // test : bugly crash
+        findViewById(R.id.btn_test_bugly).setOnClickListener(new View.OnClickListener() {
+            @Override
+            @AopOnClick(5000)
+            public void onClick(View v) {
+                CrashReport.testJavaCrash();
             }
         });
     }

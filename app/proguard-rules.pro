@@ -160,6 +160,10 @@ public static final int *;
   public *;
 }
 
+# Bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+
 # EventBus
 -keepattributes *Annotation*
 -keepclassmembers class * {
