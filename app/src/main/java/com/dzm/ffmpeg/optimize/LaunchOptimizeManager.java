@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Johnny Deng
@@ -15,10 +16,10 @@ import java.util.concurrent.ExecutorService;
  * @date 2020/6/25 17:50
  */
 public class LaunchOptimizeManager {
-    private static final String TASK_LEAKCANARY = "task_leakcanary";
-    private static final String TASK_BMOB = "task_bmob";
-    private static final String TASK_BUGLY = "task_bugly";
-    private static final String TASK_ANDFIX = "task_andfix";
+    public static final String TASK_LEAKCANARY = "task_leakcanary";
+    public static final String TASK_BMOB = "task_bmob";
+    public static final String TASK_BUGLY = "task_bugly";
+    public static final String TASK_ANDFIX = "task_andfix";
 
     private static String[] allTasks = new String[] {
             TASK_LEAKCANARY, TASK_BMOB, TASK_BUGLY, TASK_ANDFIX};
@@ -29,6 +30,13 @@ public class LaunchOptimizeManager {
      * @param tasks tasks
      */
     public static void topologicalSort(List<LaunchTask> tasks) {
+        if (tasks == null || tasks.size() == 0) {
+            return;
+        }
+
+        // 统计当前完成的数量
+        AtomicInteger count = new AtomicInteger();
+
         ExecutorService executorService = ThreadUtils.getCachedThreadPool();
         Set<String> set = new HashSet<>();
         LinkedList<LaunchTask> queue = new LinkedList<>();
@@ -36,6 +44,7 @@ public class LaunchOptimizeManager {
         // 任务执行后，刷新排序图
         Callback callback = name -> {
             synchronized (tasks) {
+                count.getAndIncrement();
                 for (LaunchTask task : tasks) {
                     if (task.pres.size() > 0) {
                         task.pres.remove(name);
@@ -75,20 +84,21 @@ public class LaunchOptimizeManager {
             }
         }
 
-        while (!queue.isEmpty() || !tasks.isEmpty()) {
+        while (!queue.isEmpty() || !tasks.isEmpty() || count.get() < tasks.size()) {
             if (queue.isEmpty()) {
                 continue;
             }
 
             LaunchTask task = queue.poll();
-            executorService.submit(task.runnable);
+            executorService.submit(task);
         }
     }
 
-    public static class LaunchTask {
+    public static class LaunchTask implements Runnable {
         private Runnable runnable;
         private List<String> pres;
         private String name;
+        private Callback callback;
 
         public LaunchTask(Runnable runnable, List<String> pres, String name) {
             this.runnable = runnable;
@@ -97,12 +107,16 @@ public class LaunchOptimizeManager {
         }
 
         public void setCallback(Callback callback) {
-            runnable = () -> {
-                runnable.run();
-                callback.onComplete(name);
-            };
+            this.callback = callback;
         }
 
+        @Override
+        public void run() {
+            runnable.run();
+            if (callback != null) {
+                callback.onComplete(name);
+            }
+        }
     }
 
     public interface Callback {
