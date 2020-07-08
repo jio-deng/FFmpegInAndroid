@@ -1,5 +1,6 @@
 package com.dzm.ffmpeg.optimize;
 
+import com.dzm.ffmpeg.utils.LogUtils;
 import com.dzm.ffmpeg.utils.ThreadUtils;
 
 import java.util.HashSet;
@@ -16,6 +17,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date 2020/6/25 17:50
  */
 public class LaunchOptimizeManager {
+    private static final int TIME_OUT = 5000;
+
     public static final String TASK_LEAKCANARY = "task_leakcanary";
     public static final String TASK_BMOB = "task_bmob";
     public static final String TASK_BUGLY = "task_bugly";
@@ -33,6 +36,9 @@ public class LaunchOptimizeManager {
         if (tasks == null || tasks.size() == 0) {
             return;
         }
+
+        // 执行时间
+        long startTime = System.currentTimeMillis();
 
         // 统计当前完成的数量
         AtomicInteger count = new AtomicInteger();
@@ -85,6 +91,12 @@ public class LaunchOptimizeManager {
         }
 
         while (!queue.isEmpty() || !tasks.isEmpty() || count.get() < tasks.size()) {
+            long cur = System.currentTimeMillis();
+            if (cur - startTime > TIME_OUT) {
+                LogUtils.e("App Launch up Time out!");
+                break;
+            }
+
             if (queue.isEmpty()) {
                 continue;
             }

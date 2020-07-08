@@ -7,8 +7,10 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.dzm.ffmpeg.cars.KnowCarsActivity;
+import com.dzm.ffmpeg.databinding.ActivityMainBinding;
 import com.dzm.ffmpeg.optimize.AopOnClick;
 import com.dzm.ffmpeg.tools.MorseCodeActivity;
 import com.dzm.ffmpeg.utils.NotificationUtil;
@@ -29,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         // jump to : lame convert pcm to mp3
-        findViewById(R.id.btn_convert_pcm_2_mp3).setOnClickListener(new View.OnClickListener() {
+        dataBinding.btnConvertPcm2Mp3.setOnClickListener(new View.OnClickListener() {
             @Override
             @AopOnClick
             public void onClick(View v) {
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // jump to : wan android
-        findViewById(R.id.btn_wan_android).setOnClickListener(new View.OnClickListener() {
+        dataBinding.btnWanAndroid.setOnClickListener(new View.OnClickListener() {
             @Override
             @AopOnClick(5000)
             public void onClick(View v) {
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // test notification
-        findViewById(R.id.btn_test_notification).setOnClickListener(new View.OnClickListener() {
+        dataBinding.btnTestNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             @AopOnClick(5000)
             public void onClick(View v) {
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // jump to : morse-code
-        findViewById(R.id.btn_morse_code).setOnClickListener(new View.OnClickListener() {
+        dataBinding.btnMorseCode.setOnClickListener(new View.OnClickListener() {
             @Override
             @AopOnClick(5000)
             public void onClick(View v) {
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // jump to : know_cars
-        findViewById(R.id.btn_know_cars).setOnClickListener(new View.OnClickListener() {
+        dataBinding.btnKnowCars.setOnClickListener(new View.OnClickListener() {
             @Override
             @AopOnClick(5000)
             public void onClick(View v) {
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // test : bugly crash
-        findViewById(R.id.btn_test_bugly).setOnClickListener(new View.OnClickListener() {
+        dataBinding.btnTestBugly.setOnClickListener(new View.OnClickListener() {
             @Override
             @AopOnClick(5000)
             public void onClick(View v) {
