@@ -2,6 +2,7 @@
 #include <string>
 #include "libmp3lame/lame.h"
 #include "mp3_encoder.h"
+#include "ffmpeg/ffmpeg.h"
 
 Mp3Encoder *encoder;
 
@@ -70,3 +71,33 @@ Java_com_dzm_ffmpeg_Mp3Encoder_destroy(JNIEnv *env, jclass type) {
 
 
 /** ----------------------------------------- lame end ----------------------------------------- **/
+
+
+
+
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_printMeta(JNIEnv *env, jclass clazz, jstring url) {
+    // TODO: implement printMeta()
+
+    AVFormatContext *fmt_cx = NULL;
+    int ret;
+    const char* constUrl = env->GetStringUTFChars(url, 0);
+
+    av_log_set_level(AV_LOG_INFO);
+    av_register_all();
+
+    // 传入上下文、文件名、后缀（不填则解析文件名后面的）、options
+    ret = avformat_open_input(&fmt_cx, constUrl, NULL, NULL);
+    if (ret < 0) {
+        av_log(NULL, AV_LOG_ERROR, "Can't open file : %s\n", av_err2str(ret));
+        return -1;
+    }
+
+    av_dump_format(fmt_cx, 0, constUrl, 0); // 最后这个0代表dump输入信息；1代表dump输出信息
+
+    avformat_close_input(&fmt_cx);
+
+    return 0;
+}
