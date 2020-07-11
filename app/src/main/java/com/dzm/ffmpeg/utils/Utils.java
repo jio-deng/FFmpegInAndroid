@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Process;
 import android.text.TextUtils;
 
+import com.dzm.ffmpeg.BuildConfig;
 import com.dzm.ffmpeg.MyApplication;
 
 import java.io.BufferedReader;
@@ -17,10 +18,11 @@ import java.util.List;
 /**
  * @author Johnny Deng
  * @version 1.0
- * @description TODO
+ * @description Utils
  * @date 2019/11/28 9:45
  */
 public class Utils {
+    public static String FILE_PROVIDER_NAME = BuildConfig.FILE_PROVIDER;
 
     public static MyApplication getApplication() {
         return MyApplication.getInstance();

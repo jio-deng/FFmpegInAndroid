@@ -10,17 +10,12 @@ cmake_minimum_required(VERSION 3.4.1)
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 
-add_library( native-lib
-
-             SHARED
-
-        src/main/cpp/native-lib.cpp
-        src/main/cpp/mp3_encoder.cpp)
-
 add_library( media-handle
 
              SHARED
 
+        src/main/cpp/native-lib.cpp
+        src/main/cpp/mp3_encoder.cpp
         src/main/cpp/ffmpeg/cmdutils.c
         src/main/cpp/ffmpeg/ffmpeg.c
         src/main/cpp/ffmpeg/ffmpeg_filter.c
@@ -36,35 +31,7 @@ add_library( media-handle
         src/main/cpp/video_filter.c
         src/main/cpp/audio_lame.c
         src/main/cpp/fast_start.c
-        src/main/cpp/ffprobe_cmd.c )
-
-
-
-add_library( lame
-
-             SHARED
-
-             src/main/cpp/libmp3lame/bitstream.c
-             src/main/cpp/libmp3lame/encoder.c
-             src/main/cpp/libmp3lame/fft.c
-             src/main/cpp/libmp3lame/gain_analysis.c
-             src/main/cpp/libmp3lame/id3tag.c
-             src/main/cpp/libmp3lame/lame.c
-             src/main/cpp/libmp3lame/mpglib_interface.c
-             src/main/cpp/libmp3lame/newmdct.c
-             src/main/cpp/libmp3lame/presets.c
-             src/main/cpp/libmp3lame/psymodel.c
-             src/main/cpp/libmp3lame/quantize.c
-             src/main/cpp/libmp3lame/quantize_pvt.c
-             src/main/cpp/libmp3lame/reservoir.c
-             src/main/cpp/libmp3lame/set_get.c
-             src/main/cpp/libmp3lame/tables.c
-             src/main/cpp/libmp3lame/takehiro.c
-             src/main/cpp/libmp3lame/util.c
-             src/main/cpp/libmp3lame/vbrquantize.c
-             src/main/cpp/libmp3lame/VbrTag.c
-             src/main/cpp/libmp3lame/version.c
-             src/main/cpp/libmp3lame/vector/xmm_quantize_sub.c )
+        src/main/cpp/ffprobe_cmd.c)
 
 
 
@@ -112,9 +79,7 @@ find_library( # Sets the name of the path variable.
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
-                       native-lib
                        media-handle
-                       lame
                        mp3lame
                        ffmpeg
                        -landroid #native_window

@@ -15,18 +15,14 @@ android {
 
         externalNativeBuild {
             cmake {
-                cFlags "-DSTDC_HEADERS"
                 cppFlags ""
-                //生成so文件
-                abiFilters 'armeabi-v7a', 'arm64-v8a'
             }
         }
 
         //声明支持的手机cpu类型
         ndk {
-            moduleName "wechat"
             // 设置支持的SO库架构
-            abiFilters 'armeabi-v7a', 'arm64-v8a'   //, 'x86'//, 'x86_64'//
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
 
         // dex突破65535的限制
@@ -39,12 +35,12 @@ android {
         inhouse {
             dimension "packageMode"
 
+            manifestPlaceholders = [file_provider: "com.dzm.ffmpeg.fileprovider"]
+
             buildConfigField("String", "BASE_URL_SERVER", "\"http://120.131.7.96/api/\"")
+            buildConfigField("String", "FILE_PROVIDER", "\"com.dzm.ffmpeg.fileprovider\"")
         }
     }
-
-
-
 
     buildTypes {
         release {
@@ -55,9 +51,16 @@ android {
             jniDebuggable true
         }
     }
+
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            jni.srcDirs = []
         }
     }
 
@@ -164,6 +167,10 @@ dependencies {
 
     //解决Glide找不到Android声明库问题
     annotationProcessor 'androidx.annotation:annotation:1.1.0'
+
+    // zhihu Matisse
+    //    implementation "com.zhihu.android:matisse:$rootProject.matisse"
+    implementation project(':matisse')
 
     // AspectJ
     implementation 'org.aspectj:aspectjrt:1.8.10'

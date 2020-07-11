@@ -1,8 +1,8 @@
 package com.dzm.ffmpeg;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Debug;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -14,9 +14,13 @@ import com.dzm.ffmpeg.databinding.ActivityMainBinding;
 import com.dzm.ffmpeg.optimize.AopOnClick;
 import com.dzm.ffmpeg.tools.MorseCodeActivity;
 import com.dzm.ffmpeg.utils.NotificationUtil;
+import com.dzm.ffmpeg.utils.rxpermissions.RxPermissions;
 import com.dzm.ffmpeg.wanandroid.WanAndroidActivity;
 import com.dzm.ffmpeg.yinshipin.ConvertPcm2Mp3Activity;
+import com.dzm.ffmpeg.yinshipin.activity.FetchMetaDataActivity;
 import com.tencent.bugly.crashreport.CrashReport;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * @author Johnny Deng
@@ -32,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         ActivityMainBinding dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        init(dataBinding);
+
+        // get permission
+        permissionCheck();
+    }
+
+    private void init(ActivityMainBinding dataBinding) {
+        /* Video */
 
         // jump to : lame convert pcm to mp3
         dataBinding.btnConvertPcm2Mp3.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +54,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // jump to : get video Meta data
+        dataBinding.btnGetVideoMetaData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            @AopOnClick
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FetchMetaDataActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        /* WanAndroid */
 
         // jump to : wan android
         dataBinding.btnWanAndroid.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        /* Test */
+
         // test : bugly crash
         dataBinding.btnTestBugly.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +126,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void permissionCheck() {
+        Disposable permissionDisposable = new RxPermissions(this)
+                .request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE)
+                .subscribe();
+    }
+
     static{
-        System.loadLibrary("native-lib");
+        System.loadLibrary("media-handle");
     }
 }

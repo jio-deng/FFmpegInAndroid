@@ -35,6 +35,7 @@
         </activity>
 
         <activity android:name=".yinshipin.ConvertPcm2Mp3Activity" />
+        <activity android:name=".yinshipin.activity.FetchMetaDataActivity" />
         <activity android:name=".wanandroid.WanAndroidActivity" />
         <activity android:name=".wanandroid.WxOffAccountDataActivity" />
         <activity android:name=".wanandroid.WanHomeActivity" />
@@ -44,6 +45,17 @@
 
 
         <service android:name=".hotfix.andfix.AndFixService" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${file_provider}"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 

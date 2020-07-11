@@ -1,18 +1,20 @@
 #include <jni.h>
 #include <string>
-#include "libmp3lame/lame.h"
+
 #include "mp3_encoder.h"
-#include "ffmpeg/ffmpeg.h"
+
+extern "C"
+{
+#include "libavutil/log.h"
+#include "libavformat/avformat.h"
+}
+
 
 Mp3Encoder *encoder;
 
 extern "C"
-JNIEXPORT jstring
-
-JNICALL
-Java_com_dzm_ffmpeg_MainActivity_stringFromJNI(
-        JNIEnv *env,
-        jobject /* this */) {
+JNIEXPORT jstring JNICALL
+Java_com_dzm_ffmpeg_MainActivity_stringFromJNI(JNIEnv *env, jobject /* this */) {
     std::string hello = "Hello from C++";
     return env->NewStringUTF(hello.c_str());
 }
@@ -77,11 +79,10 @@ Java_com_dzm_ffmpeg_Mp3Encoder_destroy(JNIEnv *env, jclass type) {
 
 
 extern "C"
-JNIEXPORT jint JNICALL
+JNIEXPORT jstring JNICALL
 Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_printMeta(JNIEnv *env, jclass clazz, jstring url) {
-    // TODO: implement printMeta()
-
-    AVFormatContext *fmt_cx = NULL;
+    AVFormatContext *fmt_ctx = NULL;
+    AVDictionaryEntry *tag = NULL;
     int ret;
     const char* constUrl = env->GetStringUTFChars(url, 0);
 
@@ -89,15 +90,25 @@ Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_printMeta(JNIEnv *env, jclass clazz, js
     av_register_all();
 
     // 传入上下文、文件名、后缀（不填则解析文件名后面的）、options
-    ret = avformat_open_input(&fmt_cx, constUrl, NULL, NULL);
+    ret = avformat_open_input(&fmt_ctx, constUrl, NULL, NULL);
+    char* res = (char*)malloc(1);
     if (ret < 0) {
         av_log(NULL, AV_LOG_ERROR, "Can't open file : %s\n", av_err2str(ret));
-        return -1;
+        strcat(res, "Can't open file : %s\n");
+        strcat(res, av_err2str(ret));
+        return env->NewStringUTF(res);
     }
 
-    av_dump_format(fmt_cx, 0, constUrl, 0); // 最后这个0代表dump输入信息；1代表dump输出信息
+    av_dump_format(fmt_ctx, 0, constUrl, 0); // 最后这个0代表dump输入信息；1代表dump输出信息
 
-    avformat_close_input(&fmt_cx);
+    while ((tag = av_dict_get(fmt_ctx->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))) {
+        strcat(res, tag->key);
+        strcat(res, "=");
+        strcat(res, tag->value);
+        strcat(res, "\n");
+    }
 
-    return 0;
+    avformat_close_input(&fmt_ctx);
+
+    return env->NewStringUTF(res);
 }

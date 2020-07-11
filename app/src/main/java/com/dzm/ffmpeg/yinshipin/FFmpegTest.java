@@ -11,7 +11,7 @@ public class FFmpegTest {
      * 打印视频文件的Meta信息
      *
      * @param url 视频地址
-     * @return 0：success   -1：failed
+     * @return MetaData
      */
-    public static native int printMeta(String url);
+    public static native String printMeta(String url);
 }

@@ -3,7 +3,7 @@
 //
 
 #include <stdio.h>
-#include "libmp3lame/lame.h"
+#include "include/lame/lame.h"
 
 #ifndef FFMPEGINANDROID_MP3_ENCODER_H
 #define FFMPEGINANDROID_MP3_ENCODER_H

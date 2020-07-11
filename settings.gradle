@@ -1,1 +1,2 @@
+include ':matisse'
 include ':app'
