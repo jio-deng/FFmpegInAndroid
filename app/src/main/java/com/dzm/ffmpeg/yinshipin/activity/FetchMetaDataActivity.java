@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,7 +39,10 @@ public class FetchMetaDataActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityGetVideoMetaDataBinding dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_get_video_meta_data);
+        init(dataBinding);
+    }
 
+    private void init(ActivityGetVideoMetaDataBinding dataBinding) {
         dataBinding.btnSelectVideo.setOnClickListener(v -> {
             if (matisse == null) {
                 matisse = Matisse.from(FetchMetaDataActivity.this);
@@ -60,6 +64,38 @@ public class FetchMetaDataActivity extends AppCompatActivity {
                             String filePath = pathList.get(0);
                             LogUtils.d("filePath = " + filePath);
                             dataBinding.tvShowMetaData.setText(FFmpegTest.printMeta(filePath));
+                            if (matisse != null) {
+                                matisse.finish();
+                            }
+                        }
+                    })
+                    .forResult(REQUEST_OPEN_MATISSE);
+        });
+
+        dataBinding.btnGetAudioTrack.setOnClickListener(v -> {
+            if (matisse == null) {
+                matisse = Matisse.from(FetchMetaDataActivity.this);
+            }
+
+            matisse.choose(MimeType.ofVideo())
+                    .showSingleMediaType(true)
+                    .capture(true)
+                    .captureStrategy(new CaptureStrategy(true, Utils.FILE_PROVIDER_NAME))
+                    .countable(false)
+                    .maxSelectable(1)
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .thumbnailScale(0.85f)
+                    .imageEngine(new GlideEngine())
+                    .theme(R.style.Matisse_Dracula)
+                    .setOnConfirmedListener(new OnConfirmedListener() {
+                        @Override
+                        public void onConfirm(@NonNull List<Uri> uriList, @NonNull List<String> pathList) {
+                            String filePath = pathList.get(0);
+                            StringBuilder outPath = new StringBuilder();
+                            outPath.append(getExternalCacheDir()).append("/").append(System.currentTimeMillis()).append(".aac");
+                            LogUtils.d("filePath = " + filePath + ", outPath = " + outPath);
+
+                            dataBinding.tvShowMetaData.setText(FFmpegTest.getAudioTrack(filePath, outPath.toString()));
                             if (matisse != null) {
                                 matisse.finish();
                             }

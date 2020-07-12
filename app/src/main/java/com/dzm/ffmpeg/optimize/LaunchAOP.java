@@ -76,14 +76,14 @@ public class LaunchAOP {
         // 取出方法的注解
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
-        if (!method.isAnnotationPresent(AopOnClick.class)) {
-            return;
+        if (method.isAnnotationPresent(AopOnClick.class)) {
+            AopOnClick aopOnclick = method.getAnnotation(AopOnClick.class);
+            // 判断是否快速点击
+            if (isFastDoubleClick(view, aopOnclick.value())) {
+                return;
+            }
         }
-        AopOnClick aopOnclick = method.getAnnotation(AopOnClick.class);
-        // 判断是否快速点击
-        if (!isFastDoubleClick(view, aopOnclick.value())) {
-            // 不是快速点击，执行原方法
-            joinPoint.proceed();
-        }
+
+        joinPoint.proceed();
     }
 }

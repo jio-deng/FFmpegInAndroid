@@ -28,6 +28,10 @@ public class Utils {
         return MyApplication.getInstance();
     }
 
+    public static int getColor(int colorId) {
+        return getApplication().getResources().getColor(colorId);
+    }
+
     public static boolean isAppDebug() {
         return MyApplication.isAppDebug();
     }

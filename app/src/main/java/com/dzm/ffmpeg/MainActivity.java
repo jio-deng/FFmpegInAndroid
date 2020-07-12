@@ -15,6 +15,7 @@ import com.dzm.ffmpeg.optimize.AopOnClick;
 import com.dzm.ffmpeg.tools.MorseCodeActivity;
 import com.dzm.ffmpeg.utils.NotificationUtil;
 import com.dzm.ffmpeg.utils.rxpermissions.RxPermissions;
+import com.dzm.ffmpeg.wanandroid.KnockNBottomSheetDialogFragment;
 import com.dzm.ffmpeg.wanandroid.WanAndroidActivity;
 import com.dzm.ffmpeg.yinshipin.ConvertPcm2Mp3Activity;
 import com.dzm.ffmpeg.yinshipin.activity.FetchMetaDataActivity;
@@ -110,6 +111,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, KnowCarsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // jump to : 敲7
+        dataBinding.btnKnockN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                KnockNBottomSheetDialogFragment.showKnockNDialogFragment(getSupportFragmentManager());
             }
         });
 

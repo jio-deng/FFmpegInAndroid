@@ -14,4 +14,13 @@ public class FFmpegTest {
      * @return MetaData
      */
     public static native String printMeta(String url);
+
+
+    /**
+     * 抽取音频数据
+     *
+     * @param in
+     * @param out
+     */
+    public static native String getAudioTrack(String in, String out);
 }
