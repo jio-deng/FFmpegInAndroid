@@ -43,6 +43,7 @@ public class FetchMetaDataActivity extends AppCompatActivity {
     }
 
     private void init(ActivityGetVideoMetaDataBinding dataBinding) {
+        // get meta data
         dataBinding.btnSelectVideo.setOnClickListener(v -> {
             if (matisse == null) {
                 matisse = Matisse.from(FetchMetaDataActivity.this);
@@ -72,6 +73,7 @@ public class FetchMetaDataActivity extends AppCompatActivity {
                     .forResult(REQUEST_OPEN_MATISSE);
         });
 
+        // get audio track
         dataBinding.btnGetAudioTrack.setOnClickListener(v -> {
             if (matisse == null) {
                 matisse = Matisse.from(FetchMetaDataActivity.this);
@@ -93,9 +95,48 @@ public class FetchMetaDataActivity extends AppCompatActivity {
                             String filePath = pathList.get(0);
                             StringBuilder outPath = new StringBuilder();
                             outPath.append(getExternalCacheDir()).append("/").append(System.currentTimeMillis()).append(".aac");
-                            LogUtils.d("filePath = " + filePath + ", outPath = " + outPath);
 
-                            dataBinding.tvShowMetaData.setText(FFmpegTest.getAudioTrack(filePath, outPath.toString()));
+                            String pp = "filePath = " + filePath + ", outPath = " + outPath;
+
+                            LogUtils.d(pp);
+
+                            dataBinding.tvShowMetaData.setText(pp + "\n" + FFmpegTest.getAudioTrack(filePath, outPath.toString()));
+                            if (matisse != null) {
+                                matisse.finish();
+                            }
+                        }
+                    })
+                    .forResult(REQUEST_OPEN_MATISSE);
+        });
+
+        // get video track
+        dataBinding.btnGetVideoTrack.setOnClickListener(v -> {
+            if (matisse == null) {
+                matisse = Matisse.from(FetchMetaDataActivity.this);
+            }
+
+            matisse.choose(MimeType.ofVideo())
+                    .showSingleMediaType(true)
+                    .capture(true)
+                    .captureStrategy(new CaptureStrategy(true, Utils.FILE_PROVIDER_NAME))
+                    .countable(false)
+                    .maxSelectable(1)
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .thumbnailScale(0.85f)
+                    .imageEngine(new GlideEngine())
+                    .theme(R.style.Matisse_Dracula)
+                    .setOnConfirmedListener(new OnConfirmedListener() {
+                        @Override
+                        public void onConfirm(@NonNull List<Uri> uriList, @NonNull List<String> pathList) {
+                            String filePath = pathList.get(0);
+                            StringBuilder outPath = new StringBuilder();
+                            outPath.append(getExternalCacheDir()).append("/").append(System.currentTimeMillis()).append(".h264");
+
+                            String pp = "filePath = " + filePath + ", outPath = " + outPath;
+
+                            LogUtils.d(pp);
+
+                            dataBinding.tvShowMetaData.setText(pp + "\n" + FFmpegTest.getVideoTrack(filePath, outPath.toString()));
                             if (matisse != null) {
                                 matisse.finish();
                             }

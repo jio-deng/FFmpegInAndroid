@@ -16,6 +16,8 @@ add_library( media-handle
 
         src/main/cpp/native-lib.cpp
         src/main/cpp/mp3_encoder.cpp
+        src/main/cpp/extra_audio.c
+        src/main/cpp/extra_video.c
         src/main/cpp/ffmpeg/cmdutils.c
         src/main/cpp/ffmpeg/ffmpeg.c
         src/main/cpp/ffmpeg/ffmpeg_filter.c

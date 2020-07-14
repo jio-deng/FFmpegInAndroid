@@ -7,8 +7,12 @@ extern "C"
 {
 #include "libavutil/log.h"
 #include "libavformat/avformat.h"
+#include "libavformat/avio.h"
+#include "extra_audio.h"
+#include "extra_video.h"
 }
 
+#define ADTS_HEADER_LEN  7;
 
 Mp3Encoder *encoder;
 
@@ -172,11 +176,87 @@ Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_getAudioTrack(JNIEnv *env, jclass clazz
     av_init_packet(&pkt);
     while (av_read_frame(fmt_ctx, &pkt) >= 0) {
         if (pkt.stream_index == audio_index) {
+            // write adts header
+            char adts_header_buf[7];
+            adts_header(adts_header_buf, pkt.size);
+            fwrite(adts_header_buf, 1, 7, dest_fd);
+
             // write audio data to 'out'
             len = fwrite(pkt.data, 1, pkt.size, dest_fd);
             if (len != pkt.size) {
                 av_log(NULL, AV_LOG_WARNING, "Warning, length of data is not equal to size of pkt!");
             }
+        }
+
+        av_packet_unref(&pkt);
+    }
+
+    fclose(dest_fd);
+    avformat_close_input(&fmt_ctx);
+
+    strcat(res, "Succeed!");
+    return env->NewStringUTF(res);
+}
+
+
+
+/**
+ * 抽取视频数据
+ */
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_getVideoTrack(JNIEnv *env, jclass clazz, jstring in,
+                                                       jstring out) {
+    AVFormatContext *fmt_ctx = NULL;
+    AVPacket pkt;
+
+    int ret, len;
+    int video_index;
+    char* res = (char*)malloc(1);
+
+    const char* constUrl = env->GetStringUTFChars(in, 0);
+    const char* destUtl = env->GetStringUTFChars(out, 0);
+
+    av_log_set_level(AV_LOG_INFO);
+    av_register_all();
+
+    FILE* dest_fd = fopen(destUtl, "wb");
+    if (!dest_fd) {
+        av_log(NULL, AV_LOG_ERROR, "File already exists : %s\n", destUtl);
+        strcat(res, "File already exists : ");
+        strcat(res, destUtl);
+        strcat(res, "\n");
+        return env->NewStringUTF(res);
+    }
+
+    // 传入上下文、文件名、后缀（不填则解析文件名后面的）、options
+    ret = avformat_open_input(&fmt_ctx, constUrl, NULL, NULL);
+    if (ret < 0) {
+        av_log(NULL, AV_LOG_ERROR, "Can't open file : %s\n", av_err2str(ret));
+        avformat_close_input(&fmt_ctx);
+        strcat(res, "Can't open file : ");
+        strcat(res, av_err2str(ret));
+        strcat(res, "\n");
+        return env->NewStringUTF(res);
+    }
+
+    av_dump_format(fmt_ctx, 0, constUrl, 0); // 最后这个0代表dump输入信息；1代表dump输出信息
+
+    // get stream
+    video_index = av_find_best_stream(fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
+    if (video_index < 0) {
+        av_log(NULL, AV_LOG_ERROR, "Can't find best stream!");
+        avformat_close_input(&fmt_ctx);
+        fclose(dest_fd);
+        strcat(res, "Can't find best stream!\n");
+        return env->NewStringUTF(res);
+    }
+
+    // read
+    av_init_packet(&pkt);
+    while (av_read_frame(fmt_ctx, &pkt) >= 0) {
+        if (pkt.stream_index == video_index) {
+            h264_mp4toannexb(fmt_ctx, &pkt, dest_fd);
         }
 
         av_packet_unref(&pkt);

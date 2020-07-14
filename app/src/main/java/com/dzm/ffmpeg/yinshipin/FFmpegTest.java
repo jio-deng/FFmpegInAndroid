@@ -19,8 +19,15 @@ public class FFmpegTest {
     /**
      * 抽取音频数据
      *
-     * @param in
-     * @param out
+     * @param in in-path
+     * @param out out-path
      */
     public static native String getAudioTrack(String in, String out);
+
+    /**
+     * 抽取视频数据
+     * @param in in-path
+     * @param out out-path
+     */
+    public static native String getVideoTrack(String in, String out);
 }
