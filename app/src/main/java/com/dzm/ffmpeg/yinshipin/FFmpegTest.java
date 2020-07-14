@@ -24,10 +24,25 @@ public class FFmpegTest {
      */
     public static native String getAudioTrack(String in, String out);
 
+
     /**
      * 抽取视频数据
+     *
      * @param in in-path
      * @param out out-path
      */
     public static native String getVideoTrack(String in, String out);
+
+
+    /**
+     * 裁剪视频
+     *
+     * @param in in-path
+     * @param out out-path
+     */
+    public static native int cutVideo(double fromSecond, double toSecond, String in, String out);
+
+    static{
+        System.loadLibrary("media-handle");
+    }
 }

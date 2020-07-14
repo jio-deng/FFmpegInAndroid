@@ -7,6 +7,9 @@
 
 #include <android/log.h>
 
+//定义Log标志
+#define LOG_TAG "native-lib"
+#define LOGD(TAG, FORMAT, ...) __android_log_print(ANDROID_LOG_DEBUG, TAG, FORMAT, ##__VA_ARGS__)
 #define LOGI(TAG, FORMAT, ...) __android_log_print(ANDROID_LOG_INFO, TAG, FORMAT, ##__VA_ARGS__);
 #define LOGE(TAG, FORMAT,...) __android_log_print(ANDROID_LOG_ERROR, TAG, FORMAT, ##__VA_ARGS__);
 

@@ -2,6 +2,7 @@
 #include <string>
 
 #include "mp3_encoder.h"
+#include "ffmpeg_jni_define.h"
 
 extern "C"
 {
@@ -99,7 +100,7 @@ Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_printMeta(JNIEnv *env, jclass clazz, js
     ret = avformat_open_input(&fmt_ctx, constUrl, NULL, NULL);
     char* res = (char*)malloc(1);
     if (ret < 0) {
-        av_log(NULL, AV_LOG_ERROR, "Can't open file : %s\n", av_err2str(ret));
+        LOGI(LOG_TAG, "Can't open file : %s\n", av_err2str(ret));
         strcat(res, "Can't open file : %s\n");
         strcat(res, av_err2str(ret));
         return env->NewStringUTF(res);
@@ -142,7 +143,7 @@ Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_getAudioTrack(JNIEnv *env, jclass clazz
 
     FILE* dest_fd = fopen(destUtl, "wb");
     if (!dest_fd) {
-        av_log(NULL, AV_LOG_ERROR, "File already exists : %s\n", destUtl);
+        LOGE(LOG_TAG, "File already exists : %s\n", destUtl);
         strcat(res, "File already exists : ");
         strcat(res, destUtl);
         strcat(res, "\n");
@@ -152,7 +153,7 @@ Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_getAudioTrack(JNIEnv *env, jclass clazz
     // 传入上下文、文件名、后缀（不填则解析文件名后面的）、options
     ret = avformat_open_input(&fmt_ctx, constUrl, NULL, NULL);
     if (ret < 0) {
-        av_log(NULL, AV_LOG_ERROR, "Can't open file : %s\n", av_err2str(ret));
+        LOGE(LOG_TAG, "Can't open file : %s\n", av_err2str(ret));
         avformat_close_input(&fmt_ctx);
         strcat(res, "Can't open file : ");
         strcat(res, av_err2str(ret));
@@ -165,7 +166,7 @@ Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_getAudioTrack(JNIEnv *env, jclass clazz
     // get stream
     audio_index = av_find_best_stream(fmt_ctx, AVMEDIA_TYPE_AUDIO, -1, -1, NULL, 0);
     if (audio_index < 0) {
-        av_log(NULL, AV_LOG_ERROR, "Can't find best stream!");
+        LOGE(LOG_TAG, "Can't find best stream!");
         avformat_close_input(&fmt_ctx);
         fclose(dest_fd);
         strcat(res, "Can't find best stream!\n");
@@ -222,7 +223,7 @@ Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_getVideoTrack(JNIEnv *env, jclass clazz
 
     FILE* dest_fd = fopen(destUtl, "wb");
     if (!dest_fd) {
-        av_log(NULL, AV_LOG_ERROR, "File already exists : %s\n", destUtl);
+        LOGE(LOG_TAG, "File already exists : %s\n", destUtl);
         strcat(res, "File already exists : ");
         strcat(res, destUtl);
         strcat(res, "\n");
@@ -232,7 +233,7 @@ Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_getVideoTrack(JNIEnv *env, jclass clazz
     // 传入上下文、文件名、后缀（不填则解析文件名后面的）、options
     ret = avformat_open_input(&fmt_ctx, constUrl, NULL, NULL);
     if (ret < 0) {
-        av_log(NULL, AV_LOG_ERROR, "Can't open file : %s\n", av_err2str(ret));
+        LOGE(LOG_TAG, "Can't open file : %s\n", av_err2str(ret));
         avformat_close_input(&fmt_ctx);
         strcat(res, "Can't open file : ");
         strcat(res, av_err2str(ret));
@@ -245,7 +246,7 @@ Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_getVideoTrack(JNIEnv *env, jclass clazz
     // get stream
     video_index = av_find_best_stream(fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
     if (video_index < 0) {
-        av_log(NULL, AV_LOG_ERROR, "Can't find best stream!");
+        LOGE(LOG_TAG, "Can't find best stream!");
         avformat_close_input(&fmt_ctx);
         fclose(dest_fd);
         strcat(res, "Can't find best stream!\n");
@@ -267,4 +268,18 @@ Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_getVideoTrack(JNIEnv *env, jclass clazz
 
     strcat(res, "Succeed!");
     return env->NewStringUTF(res);
+}
+
+
+
+/**
+ * 裁剪视频
+ */
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_dzm_ffmpeg_yinshipin_FFmpegTest_cutVideo(JNIEnv *env, jclass clazz, jdouble from_second,
+                                                  jdouble to_second, jstring in, jstring out) {
+    int ret = cut_video(from_second, to_second, env->GetStringUTFChars(in, 0),
+                        env->GetStringUTFChars(out, 0));
+    return (jint) ret;
 }

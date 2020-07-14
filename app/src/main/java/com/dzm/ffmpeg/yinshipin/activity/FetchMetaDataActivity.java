@@ -45,105 +45,97 @@ public class FetchMetaDataActivity extends AppCompatActivity {
     private void init(ActivityGetVideoMetaDataBinding dataBinding) {
         // get meta data
         dataBinding.btnSelectVideo.setOnClickListener(v -> {
-            if (matisse == null) {
-                matisse = Matisse.from(FetchMetaDataActivity.this);
-            }
-
-            matisse.choose(MimeType.ofVideo())
-                    .showSingleMediaType(true)
-                    .capture(true)
-                    .captureStrategy(new CaptureStrategy(true, Utils.FILE_PROVIDER_NAME))
-                    .countable(false)
-                    .maxSelectable(1)
-                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                    .thumbnailScale(0.85f)
-                    .imageEngine(new GlideEngine())
-                    .theme(R.style.Matisse_Dracula)
-                    .setOnConfirmedListener(new OnConfirmedListener() {
-                        @Override
-                        public void onConfirm(@NonNull List<Uri> uriList, @NonNull List<String> pathList) {
-                            String filePath = pathList.get(0);
-                            LogUtils.d("filePath = " + filePath);
-                            dataBinding.tvShowMetaData.setText(FFmpegTest.printMeta(filePath));
-                            if (matisse != null) {
-                                matisse.finish();
-                            }
-                        }
-                    })
-                    .forResult(REQUEST_OPEN_MATISSE);
+            getVideo(new OnConfirmedListener() {
+                @Override
+                public void onConfirm(@NonNull List<Uri> uriList, @NonNull List<String> pathList) {
+                    String filePath = pathList.get(0);
+                    LogUtils.d("filePath = " + filePath);
+                    dataBinding.tvShowMetaData.setText(FFmpegTest.printMeta(filePath));
+                    if (matisse != null) {
+                        matisse.finish();
+                    }
+                }
+            });
         });
 
         // get audio track
         dataBinding.btnGetAudioTrack.setOnClickListener(v -> {
-            if (matisse == null) {
-                matisse = Matisse.from(FetchMetaDataActivity.this);
-            }
+            getVideo(new OnConfirmedListener() {
+                @Override
+                public void onConfirm(@NonNull List<Uri> uriList, @NonNull List<String> pathList) {
+                    String filePath = pathList.get(0);
+                    StringBuilder outPath = new StringBuilder();
+                    outPath.append(getExternalCacheDir()).append("/").append(System.currentTimeMillis()).append(".aac");
+                    String pp = "filePath = " + filePath + ", outPath = " + outPath;
+                    LogUtils.d(pp);
 
-            matisse.choose(MimeType.ofVideo())
-                    .showSingleMediaType(true)
-                    .capture(true)
-                    .captureStrategy(new CaptureStrategy(true, Utils.FILE_PROVIDER_NAME))
-                    .countable(false)
-                    .maxSelectable(1)
-                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                    .thumbnailScale(0.85f)
-                    .imageEngine(new GlideEngine())
-                    .theme(R.style.Matisse_Dracula)
-                    .setOnConfirmedListener(new OnConfirmedListener() {
-                        @Override
-                        public void onConfirm(@NonNull List<Uri> uriList, @NonNull List<String> pathList) {
-                            String filePath = pathList.get(0);
-                            StringBuilder outPath = new StringBuilder();
-                            outPath.append(getExternalCacheDir()).append("/").append(System.currentTimeMillis()).append(".aac");
-
-                            String pp = "filePath = " + filePath + ", outPath = " + outPath;
-
-                            LogUtils.d(pp);
-
-                            dataBinding.tvShowMetaData.setText(pp + "\n" + FFmpegTest.getAudioTrack(filePath, outPath.toString()));
-                            if (matisse != null) {
-                                matisse.finish();
-                            }
-                        }
-                    })
-                    .forResult(REQUEST_OPEN_MATISSE);
+                    dataBinding.tvShowMetaData.setText(pp + "\n" + FFmpegTest.getAudioTrack(filePath, outPath.toString()));
+                    if (matisse != null) {
+                        matisse.finish();
+                    }
+                }
+            });
         });
 
         // get video track
         dataBinding.btnGetVideoTrack.setOnClickListener(v -> {
-            if (matisse == null) {
-                matisse = Matisse.from(FetchMetaDataActivity.this);
-            }
+            getVideo(new OnConfirmedListener() {
+                @Override
+                public void onConfirm(@NonNull List<Uri> uriList, @NonNull List<String> pathList) {
+                    String filePath = pathList.get(0);
+                    StringBuilder outPath = new StringBuilder();
+                    outPath.append(getExternalCacheDir()).append("/").append(System.currentTimeMillis()).append(".h264");
+                    String pp = "filePath = " + filePath + ", outPath = " + outPath;
+                    LogUtils.d(pp);
 
-            matisse.choose(MimeType.ofVideo())
-                    .showSingleMediaType(true)
-                    .capture(true)
-                    .captureStrategy(new CaptureStrategy(true, Utils.FILE_PROVIDER_NAME))
-                    .countable(false)
-                    .maxSelectable(1)
-                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                    .thumbnailScale(0.85f)
-                    .imageEngine(new GlideEngine())
-                    .theme(R.style.Matisse_Dracula)
-                    .setOnConfirmedListener(new OnConfirmedListener() {
-                        @Override
-                        public void onConfirm(@NonNull List<Uri> uriList, @NonNull List<String> pathList) {
-                            String filePath = pathList.get(0);
-                            StringBuilder outPath = new StringBuilder();
-                            outPath.append(getExternalCacheDir()).append("/").append(System.currentTimeMillis()).append(".h264");
-
-                            String pp = "filePath = " + filePath + ", outPath = " + outPath;
-
-                            LogUtils.d(pp);
-
-                            dataBinding.tvShowMetaData.setText(pp + "\n" + FFmpegTest.getVideoTrack(filePath, outPath.toString()));
-                            if (matisse != null) {
-                                matisse.finish();
-                            }
-                        }
-                    })
-                    .forResult(REQUEST_OPEN_MATISSE);
+                    dataBinding.tvShowMetaData.setText(pp + "\n" + FFmpegTest.getVideoTrack(filePath, outPath.toString()));
+                    if (matisse != null) {
+                        matisse.finish();
+                    }
+                }
+            });
         });
+
+        // cut video
+        dataBinding.btnCutVideo.setOnClickListener(v -> {
+            getVideo(new OnConfirmedListener() {
+                @Override
+                public void onConfirm(@NonNull List<Uri> uriList, @NonNull List<String> pathList) {
+                    String filePath = pathList.get(0);
+                    StringBuilder outPath = new StringBuilder();
+                    outPath.append(getExternalCacheDir()).append("/").append(System.currentTimeMillis()).append(".mp4");
+                    String pp = "filePath = " + filePath + ", outPath = " + outPath;
+                    LogUtils.d(pp);
+                    // TODO
+                    double fromSecond = 10, toSecond = 20;
+                    int ret = FFmpegTest.cutVideo(fromSecond, toSecond, filePath, outPath.toString());
+                    LogUtils.d("ret = " + ret);
+                    dataBinding.tvShowMetaData.setText(pp + "\n" + ret);
+                    if (matisse != null) {
+                        matisse.finish();
+                    }
+                }
+            });
+        });
+    }
+
+    private void getVideo(OnConfirmedListener listener) {
+        if (matisse == null) {
+            matisse = Matisse.from(FetchMetaDataActivity.this);
+        }
+
+        matisse.choose(MimeType.ofVideo())
+                .showSingleMediaType(true)
+                .capture(true)
+                .captureStrategy(new CaptureStrategy(true, Utils.FILE_PROVIDER_NAME))
+                .countable(false)
+                .maxSelectable(1)
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .theme(R.style.Matisse_Dracula)
+                .setOnConfirmedListener(listener)
+                .forResult(REQUEST_OPEN_MATISSE);
     }
 
     @Override

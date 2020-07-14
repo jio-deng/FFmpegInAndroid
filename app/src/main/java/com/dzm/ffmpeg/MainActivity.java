@@ -141,8 +141,4 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.READ_PHONE_STATE)
                 .subscribe();
     }
-
-    static{
-        System.loadLibrary("media-handle");
-    }
 }

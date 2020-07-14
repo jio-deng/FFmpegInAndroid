@@ -9,6 +9,7 @@
 #include "libavutil/log.h"
 #include "libavformat/avio.h"
 #include "libavformat/avformat.h"
+#include "libavutil/timestamp.h"
 
 #ifndef AV_WB32
 #   define AV_WB32(p, val) do {                 \
@@ -36,3 +37,4 @@ int h264_extradata_to_annexb(const uint8_t *codec_extradata, const int codec_ext
 
 int h264_mp4toannexb(AVFormatContext *fmt_ctx, AVPacket *in, FILE *dst_fd);
 
+int cut_video(double from_seconds, double end_seconds, const char* in_filename, const char* out_filename);
