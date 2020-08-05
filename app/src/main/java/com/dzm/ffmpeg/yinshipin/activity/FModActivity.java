@@ -32,6 +32,8 @@ public class FModActivity extends BaseActivity {
     public static final int MODE_MAN = 2;
     public static final int MODE_GOAST = 3;
 
+    private static final String fileName = "time20200805.mp3";  // "lingneng100.mp3"
+
     private ActivityFfmodBinding mDataBinding;
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -44,8 +46,7 @@ public class FModActivity extends BaseActivity {
              * getExternalFilesDir(null)                        : /storage/emulated/0/Android/data/com.dzm.ffmpeg/files
              * getExternalFilesDir(Environment.DIRECTORY_MUSIC) : /storage/emulated/0/Android/data/com.dzm.ffmpeg/files/Music
              */
-//            path = getExternalFilesDir(null) + File.separator +"10010.mp3";
-            String path = Environment.getExternalStorageDirectory().getPath() + File.separator + "lingneng100.mp3";
+            String path = Environment.getExternalStorageDirectory().getPath() + File.separator + fileName;
             LogUtils.d("path : " + path);
             switch (v.getId()) {
                 case R.id.iv_voice_orign:
@@ -90,8 +91,8 @@ public class FModActivity extends BaseActivity {
             public void onClick(View v) {
                 ThreadUtils.getSingleThreadPool().submit(() -> {
                     try {
-                        InputStream inputStream =  getResources().openRawResource(R.raw.lingneng100);
-                        File file = new File(Environment.getExternalStorageDirectory().getPath(),"lingneng100.mp3");
+                        InputStream inputStream =  getResources().openRawResource(R.raw.time20200805);
+                        File file = new File(Environment.getExternalStorageDirectory().getPath(), fileName);
                         if(!file.exists()){
                             file.createNewFile();
                         }
