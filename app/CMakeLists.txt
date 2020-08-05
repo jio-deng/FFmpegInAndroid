@@ -35,7 +35,7 @@ add_library( media-handle
         src/main/cpp/fast_start.c
         src/main/cpp/ffprobe_cmd.c)
 
-
+# ${CMAKE_SOURCE_DIR}/libs/${CMAKE_ANDROID_ARCH_ABI}/..
 
 add_library( ffmpeg
         SHARED
@@ -51,10 +51,26 @@ set_target_properties( mp3lame
         PROPERTIES IMPORTED_LOCATION
         ../../../../libs/${CMAKE_ANDROID_ARCH_ABI}/libmp3lame.so )
 
+add_library( fmod
+        SHARED
+        IMPORTED)
+set_target_properties( fmod
+        PROPERTIES IMPORTED_LOCATION
+        ../../../../libs/${CMAKE_ANDROID_ARCH_ABI}/libfmod.so )
+
+add_library( fmodL
+        SHARED
+        IMPORTED)
+set_target_properties( fmodL
+        PROPERTIES IMPORTED_LOCATION
+        ../../../../libs/${CMAKE_ANDROID_ARCH_ABI}/libfmodL.so )
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
 include_directories(src/main/cpp)
 include_directories(src/main/cpp/include)
+include_directories(src/main/cpp/fmod)
+
 if(${CMAKE_ANDROID_ARCH_ABI} MATCHES "armeabi-v7a")
     include_directories(src/main/cpp/include/armeabi-v7a)
     message("This is armeabi-v7a")
@@ -84,6 +100,8 @@ target_link_libraries( # Specifies the target library.
                        media-handle
                        mp3lame
                        ffmpeg
+                       fmod
+                       fmodL
                        -landroid #native_window
                        -ljnigraphics #bitmap
                        -lOpenSLES #openSLES

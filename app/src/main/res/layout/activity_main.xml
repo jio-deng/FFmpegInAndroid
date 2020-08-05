@@ -50,6 +50,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_convert_pcm_2_mp3"
                 app:layout_constraintStart_toStartOf="parent"/>
 
+            <Button
+                android:id="@+id/btn_ffmod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FFMOD"
+                android:layout_marginTop="@dimen/home_btn_margin_top"
+                android:layout_marginStart="@dimen/home_btn_margin_start"
+                app:layout_constraintTop_toBottomOf="@+id/btn_get_video_meta_data"
+                app:layout_constraintStart_toStartOf="parent"/>
+
             <TextView
                 android:id="@+id/title_wan_android"
                 android:layout_width="wrap_content"
@@ -60,7 +70,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_get_video_meta_data" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_ffmod" />
 
             <Button
                 android:id="@+id/btn_wan_android"

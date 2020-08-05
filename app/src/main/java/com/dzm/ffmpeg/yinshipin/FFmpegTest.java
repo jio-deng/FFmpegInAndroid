@@ -42,7 +42,14 @@ public class FFmpegTest {
      */
     public static native int cutVideo(double fromSecond, double toSecond, String in, String out);
 
-    static{
-        System.loadLibrary("media-handle");
-    }
+
+//    /**
+//     * 视频转图片
+//     *
+//     * @param in
+//     * @param out
+//     * @return
+//     */
+//    public static native int convertVideo2Bitmap(String in, String out);
+
 }

@@ -487,3 +487,141 @@ int cut_video(double from_seconds, double end_seconds, const char* in_filename, 
 
     return 0;
 }
+
+
+typedef struct tagBITMAPFILEHEADER {
+    WORD  bfType;
+    DWORD bfSize;
+    WORD  bfReserved1;
+    WORD  bfReserved2;
+    DWORD bfOffBits;
+} BITMAPFILEHEADER, *PBITMAPFILEHEADER;
+
+
+typedef struct tagBITMAPINFOHEADER {
+    DWORD biSize;
+    LONG  biWidth;
+    LONG  biHeight;
+    WORD  biPlanes;
+    WORD  biBitCount;
+    DWORD biCompression;
+    DWORD biSizeImage;
+    LONG  biXPelsPerMeter;
+    LONG  biYPelsPerMeter;
+    DWORD biClrUsed;
+    DWORD biClrImportant;
+} BITMAPINFOHEADER, *PBITMAPINFOHEADER;
+
+void saveBMP(struct SwsContext *img_convert_ctx, AVFrame *frame, char *filename)
+{
+    //1 先进行转换,  YUV420=>RGB24:
+    int w = frame->width;
+    int h = frame->height;
+
+
+    int numBytes=avpicture_get_size(AV_PIX_FMT_BGR24, w, h);
+    uint8_t *buffer=(uint8_t *)av_malloc(numBytes*sizeof(uint8_t));
+
+
+    AVFrame *pFrameRGB = av_frame_alloc();
+    /* buffer is going to be written to rawvideo file, no alignment */
+    /*
+    if (av_image_alloc(pFrameRGB->data, pFrameRGB->linesize,
+                              w, h, AV_PIX_FMT_BGR24, pix_fmt, 1) < 0) {
+        fprintf(stderr, "Could not allocate destination image\n");
+        exit(1);
+    }
+    */
+    avpicture_fill((AVPicture *)pFrameRGB, buffer, AV_PIX_FMT_BGR24, w, h);
+
+    sws_scale(img_convert_ctx, frame->data, frame->linesize,
+              0, h, pFrameRGB->data, pFrameRGB->linesize);
+
+    //2 构造 BITMAPINFOHEADER
+    BITMAPINFOHEADER header;
+    header.biSize = sizeof(BITMAPINFOHEADER);
+
+
+    header.biWidth = w;
+    header.biHeight = h*(-1);
+    header.biBitCount = 24;
+    header.biCompression = 0;
+    header.biSizeImage = 0;
+    header.biClrImportant = 0;
+    header.biClrUsed = 0;
+    header.biXPelsPerMeter = 0;
+    header.biYPelsPerMeter = 0;
+    header.biPlanes = 1;
+
+    //3 构造文件头
+    BITMAPFILEHEADER bmpFileHeader = {0,};
+    //HANDLE hFile = NULL;
+    DWORD dwTotalWriten = 0;
+    DWORD dwWriten;
+
+    bmpFileHeader.bfType = 0x4d42; //'BM';
+    bmpFileHeader.bfSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER)+ numBytes;
+    bmpFileHeader.bfOffBits=sizeof(BITMAPFILEHEADER)+sizeof(BITMAPINFOHEADER);
+
+    FILE* pf = fopen(filename, "wb");
+    fwrite(&bmpFileHeader, sizeof(BITMAPFILEHEADER), 1, pf);
+    fwrite(&header, sizeof(BITMAPINFOHEADER), 1, pf);
+    fwrite(pFrameRGB->data[0], 1, numBytes, pf);
+    fclose(pf);
+
+
+    //释放资源
+    //av_free(buffer);
+    av_freep(&pFrameRGB[0]);
+    av_free(pFrameRGB);
+}
+
+void pgm_save(unsigned char *buf, int wrap, int xsize, int ysize,
+                     char *filename)
+{
+    FILE *f;
+    int i;
+
+    f = fopen(filename,"w");
+    fprintf(f, "P5\n%d %d\n%d\n", xsize, ysize, 255);
+    for (i = 0; i < ysize; i++)
+        fwrite(buf + i * wrap, 1, xsize, f);
+    fclose(f);
+}
+
+int decode_write_frame(const char *outfilename, AVCodecContext *avctx,
+                              struct SwsContext *img_convert_ctx, AVFrame *frame, int *frame_count, AVPacket *pkt, int last)
+{
+    int len, got_frame;
+    char buf[1024];
+
+    len = avcodec_decode_video2(avctx, frame, &got_frame, pkt);
+    if (len < 0) {
+        fprintf(stderr, "Error while decoding frame %d\n", *frame_count);
+        return len;
+    }
+    if (got_frame) {
+        printf("Saving %sframe %3d\n", last ? "last " : "", *frame_count);
+        fflush(stdout);
+
+        /* the picture is allocated by the decoder, no need to free it */
+        snprintf(buf, sizeof(buf), "%s-%d.bmp", outfilename, *frame_count);
+
+        /*
+        pgm_save(frame->data[0], frame->linesize[0],
+                 frame->width, frame->height, buf);
+        */
+
+        saveBMP(img_convert_ctx, frame, buf);
+
+        (*frame_count)++;
+    }
+    if (pkt->data) {
+        pkt->size -= len;
+        pkt->data += len;
+    }
+    return 0;
+}
+
+
+

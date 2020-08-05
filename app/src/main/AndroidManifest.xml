@@ -34,14 +34,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".yinshipin.ConvertPcm2Mp3Activity" />
+        <activity android:name=".yinshipin.activity.ConvertPcm2Mp3Activity" />
         <activity android:name=".yinshipin.activity.FetchMetaDataActivity" />
+        <activity android:name=".yinshipin.activity.FModActivity" />
         <activity android:name=".wanandroid.WanAndroidActivity" />
         <activity android:name=".wanandroid.WxOffAccountDataActivity" />
         <activity android:name=".wanandroid.WanHomeActivity" />
         <activity android:name=".webview.WebViewActivity" />
         <activity android:name=".tools.MorseCodeActivity" />
         <activity android:name=".cars.KnowCarsActivity" />
+
+        <activity android:name=".sdl.SDLActivity"
+            android:label="@string/app_name"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleInstance"
+            android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"/>
 
 
         <service android:name=".hotfix.andfix.AndFixService" />

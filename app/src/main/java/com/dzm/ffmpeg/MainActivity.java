@@ -17,7 +17,8 @@ import com.dzm.ffmpeg.utils.NotificationUtil;
 import com.dzm.ffmpeg.utils.rxpermissions.RxPermissions;
 import com.dzm.ffmpeg.wanandroid.KnockNBottomSheetDialogFragment;
 import com.dzm.ffmpeg.wanandroid.WanAndroidActivity;
-import com.dzm.ffmpeg.yinshipin.ConvertPcm2Mp3Activity;
+import com.dzm.ffmpeg.yinshipin.activity.ConvertPcm2Mp3Activity;
+import com.dzm.ffmpeg.yinshipin.activity.FModActivity;
 import com.dzm.ffmpeg.yinshipin.activity.FetchMetaDataActivity;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -29,7 +30,7 @@ import io.reactivex.disposables.Disposable;
  * @description main : guide
  * @date 2019/11/28 9:50
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     @Override
@@ -62,6 +63,16 @@ public class MainActivity extends AppCompatActivity {
             @AopOnClick
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, FetchMetaDataActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // jump to : FFMod
+        dataBinding.btnFfmod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            @AopOnClick
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FModActivity.class);
                 startActivity(intent);
             }
         });

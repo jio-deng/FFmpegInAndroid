@@ -8,9 +8,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.dzm.ffmpeg.BaseActivity;
 import com.dzm.ffmpeg.R;
 import com.dzm.ffmpeg.databinding.ActivityGetVideoMetaDataBinding;
 import com.dzm.ffmpeg.utils.LogUtils;
@@ -30,7 +30,7 @@ import java.util.List;
  * @description Get Video Meta Data
  * @date 2020/7/11 9:19
  */
-public class FetchMetaDataActivity extends AppCompatActivity {
+public class FetchMetaDataActivity extends BaseActivity {
     private static final int REQUEST_OPEN_MATISSE = 110;
 
     private Matisse matisse = null;
