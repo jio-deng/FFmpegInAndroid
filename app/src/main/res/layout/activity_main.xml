@@ -38,7 +38,8 @@
                 android:layout_marginTop="@dimen/home_btn_margin_top"
                 android:layout_marginStart="@dimen/home_btn_margin_start"
                 app:layout_constraintTop_toBottomOf="@+id/title_video"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/btn_get_video_meta_data"
@@ -112,6 +113,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_morse_code"
                 app:layout_constraintStart_toStartOf="parent" />
 
+            <Button
+                android:id="@+id/btn_animator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="动画"
+                android:layout_marginTop="@dimen/home_btn_margin_top"
+                android:layout_marginStart="@dimen/home_btn_margin_start"
+                app:layout_constraintTop_toBottomOf="@+id/btn_knock_n"
+                app:layout_constraintStart_toStartOf="parent" />
+
             <TextView
                 android:id="@+id/title_know_cars"
                 android:layout_width="wrap_content"
@@ -122,7 +133,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_knock_n" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_animator" />
 
             <Button
                 android:id="@+id/btn_know_cars"
