@@ -32,7 +32,7 @@
             android:text="Animator : Scale X"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="100dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -146,6 +146,53 @@
             app:layout_constraintTop_toTopOf="@+id/btn_interpolator_7"
             app:layout_constraintStart_toEndOf="@+id/btn_interpolator_8"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_draw_path_title"
+            android:text="下方区域可绘制："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/btn_interpolator_7"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.dzm.ffmpeg.test.DrawView
+            android:id="@+id/draw_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_draw_path_title"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        
+        <Button
+            android:id="@+id/btn_menu"
+            android:background="@drawable/plus"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_menu_item_1"
+            android:background="@drawable/refresh"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btn_menu_item_2"
+            android:background="@drawable/icon_voice_loli"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

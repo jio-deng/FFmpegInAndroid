@@ -1,5 +1,8 @@
 package com.dzm.ffmpeg.test;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
@@ -20,6 +23,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.dzm.ffmpeg.R;
 import com.dzm.ffmpeg.databinding.ActivityAnimatorTestBinding;
+import com.dzm.ffmpeg.utils.ToastUtil;
 
 /**
  * @author Johnny Deng
@@ -29,6 +33,7 @@ import com.dzm.ffmpeg.databinding.ActivityAnimatorTestBinding;
  */
 public class AnimatorTest extends AppCompatActivity {
     private ActivityAnimatorTestBinding mDataBinding;
+    private boolean isMenuOpen = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,14 +54,21 @@ public class AnimatorTest extends AppCompatActivity {
         mDataBinding.btnArgb.setOnClickListener(v -> argb(mDataBinding.ivArgb));
         mDataBinding.btnCombine.setOnClickListener(v -> combine(mDataBinding.ivArgb));
         mDataBinding.btnRotateRepeat.setOnClickListener(v -> rotateLeftRightRepeat(mDataBinding.ivArgb));
+        mDataBinding.btnMenu.setOnClickListener(v -> {
+            if (!isMenuOpen) {
+                doMenuOpen();
+                isMenuOpen = true;
+            } else {
+                doMenuClose();
+                isMenuOpen = false;
+            }
+        });
+        mDataBinding.btnMenuItem1.setOnClickListener(v -> mDataBinding.drawView.reset());
+        mDataBinding.btnMenuItem2.setOnClickListener(v -> ToastUtil.makeText(this, "This is a loli!"));
 
         ScaleAnimation animation = new ScaleAnimation(0f, 1f, 0f, 1f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         animation.setDuration(700);
-
-    }
-
-    private void testAnimation() {
 
     }
 
@@ -78,13 +90,9 @@ public class AnimatorTest extends AppCompatActivity {
         animator.setEvaluator(new ArgbEvaluator());
         animator.setDuration(3000);
 
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int curValue = (int) animation.getAnimatedValue();
-                view.setBackgroundColor(curValue);
-
-            }
+        animator.addUpdateListener(animation -> {
+            int curValue = (int) animation.getAnimatedValue();
+            view.setBackgroundColor(curValue);
         });
 
         animator.start();
@@ -119,6 +127,51 @@ public class AnimatorTest extends AppCompatActivity {
         ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(view, frameHolder);
         animator.setDuration(1000);
         animator.start();
+    }
+
+    //        ValueAnimator valueAnimator = (ValueAnimator) AnimatorInflater.loadAnimator(this, R.animator.animation_combine_1);
+    private void doMenuOpen() {
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem1, "translationX", 0, -200),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem1, "scaleX", 0f, 1f),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem1, "scaleY", 0f, 1f),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem1, "alpha", 0f, 1f),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem2, "translationY", 0, -200),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem2, "scaleX", 0f, 1f),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem2, "scaleY", 0f, 1f),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem2, "alpha", 0f, 1f));
+        set.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mDataBinding.btnMenuItem1.setVisibility(View.VISIBLE);
+                mDataBinding.btnMenuItem2.setVisibility(View.VISIBLE);
+            }
+        });
+        set.setDuration(500).start();
+    }
+
+    private void doMenuClose() {
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem1, "translationX", -200, 0),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem1, "scaleX", 1f, 0f),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem1, "scaleY", 1f,0f),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem1, "alpha", 1f, 0f),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem2, "translationY", -200, 0),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem2, "scaleX", 1f, 0f),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem2, "scaleY", 1f,0f),
+                ObjectAnimator.ofFloat(mDataBinding.btnMenuItem2, "alpha", 1f, 0f));
+        set.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mDataBinding.btnMenuItem1.setVisibility(View.GONE);
+                mDataBinding.btnMenuItem2.setVisibility(View.GONE);
+            }
+        });
+        set.setDuration(500).start();
     }
 
 }

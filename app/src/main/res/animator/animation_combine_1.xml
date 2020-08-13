@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<animator
+    android:duration="int"
+    android:valueFrom="float | int | color"
+    android:valueTo="float | int | color"
+    android:startOffset="int"
+    android:repeatCount="int"
+    android:repeatMode=["repeat" | "reverse"]
+    android:valueType=["intType" | "floatType"]
+    android:interpolator=["@android:interpolator/XXX"]/>-->
+
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="together">
+
+    <animator />
+
+</set>
