@@ -27,7 +27,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_goast4anim" />
 
-        <Button
+        <com.dzm.ffmpeg.test.BitmapShadowView
+            android:id="@+id/bitmap_shadow_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:src="@drawable/icon_voice_man"
+            app:shadowDx="5"
+            app:shadowDy="5"
+            app:shadowRadius="30"
+            app:shadowColor="@android:color/holo_red_dark"
+            android:layout_marginStart="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_argb"/>
+
+        <com.dzm.ffmpeg.test.RippleView
             android:id="@+id/btn_scale_x"
             android:text="Animator : Scale X"
             android:layout_width="wrap_content"

@@ -7,4 +7,12 @@
         <attr name="difTextColor" format="color|reference" />
         <attr name="underLine" format="string|reference" />
     </declare-styleable>
+
+    <declare-styleable name="BitmapShadowView">
+        <attr name="src" format="reference" />
+        <attr name="shadowDx" format="integer" />
+        <attr name="shadowDy" format="integer" />
+        <attr name="shadowColor" format="color"/>
+        <attr name="shadowRadius" format="float"/>
+    </declare-styleable>
 </resources>
