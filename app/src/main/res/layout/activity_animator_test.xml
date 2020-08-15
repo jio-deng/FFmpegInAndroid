@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_goast4anim" />
 
-        <com.dzm.ffmpeg.test.BitmapShadowView
+        <com.dzm.ffmpeg.test.anim.BitmapShadowView
             android:id="@+id/bitmap_shadow_view"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -40,7 +40,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_argb"/>
 
-        <com.dzm.ffmpeg.test.RippleView
+        <com.dzm.ffmpeg.test.anim.RippleView
             android:id="@+id/btn_scale_x"
             android:text="Animator : Scale X"
             android:layout_width="wrap_content"
@@ -168,7 +168,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btn_interpolator_7"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <com.dzm.ffmpeg.test.DrawView
+        <com.dzm.ffmpeg.test.anim.DrawView
             android:id="@+id/draw_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"

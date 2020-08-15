@@ -90,8 +90,8 @@
                 android:text="Test Notification"
                 android:layout_marginTop="@dimen/home_btn_margin_top"
                 android:layout_marginStart="@dimen/home_btn_margin_start"
-                app:layout_constraintTop_toBottomOf="@+id/btn_wan_android"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/title_wan_android"
+                app:layout_constraintStart_toEndOf="@+id/btn_wan_android" />
 
             <Button
                 android:id="@+id/btn_morse_code"
@@ -110,8 +110,8 @@
                 android:text="敲7"
                 android:layout_marginTop="@dimen/home_btn_margin_top"
                 android:layout_marginStart="@dimen/home_btn_margin_start"
-                app:layout_constraintTop_toBottomOf="@+id/btn_morse_code"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_test_notification"
+                app:layout_constraintStart_toEndOf="@+id/btn_morse_code" />
 
             <Button
                 android:id="@+id/btn_animator"
@@ -120,7 +120,17 @@
                 android:text="动画"
                 android:layout_marginTop="@dimen/home_btn_margin_top"
                 android:layout_marginStart="@dimen/home_btn_margin_start"
-                app:layout_constraintTop_toBottomOf="@+id/btn_knock_n"
+                app:layout_constraintTop_toBottomOf="@+id/btn_test_notification"
+                app:layout_constraintStart_toEndOf="@+id/btn_knock_n" />
+
+            <Button
+                android:id="@+id/btn_test_rv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Rv"
+                android:layout_marginTop="@dimen/home_btn_margin_top"
+                android:layout_marginStart="@dimen/home_btn_margin_start"
+                app:layout_constraintTop_toBottomOf="@+id/btn_morse_code"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -133,7 +143,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_animator" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_test_rv" />
 
             <Button
                 android:id="@+id/btn_know_cars"

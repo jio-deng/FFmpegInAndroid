@@ -11,7 +11,8 @@ import androidx.databinding.DataBindingUtil;
 import com.dzm.ffmpeg.cars.KnowCarsActivity;
 import com.dzm.ffmpeg.databinding.ActivityMainBinding;
 import com.dzm.ffmpeg.optimize.AopOnClick;
-import com.dzm.ffmpeg.test.AnimatorTest;
+import com.dzm.ffmpeg.test.anim.TestAnimationActivity;
+import com.dzm.ffmpeg.test.rv.TestRecyclerViewActivity;
 import com.dzm.ffmpeg.tools.MorseCodeActivity;
 import com.dzm.ffmpeg.utils.NotificationUtil;
 import com.dzm.ffmpeg.utils.rxpermissions.RxPermissions;
@@ -135,7 +136,13 @@ public class MainActivity extends BaseActivity {
 
         // jump to : 动画
         dataBinding.btnAnimator.setOnClickListener( v -> {
-            Intent intent = new Intent(MainActivity.this, AnimatorTest.class);
+            Intent intent = new Intent(MainActivity.this, TestAnimationActivity.class);
+            startActivity(intent);
+        });
+
+        // jump to : test rv
+        dataBinding.btnTestRv.setOnClickListener( v -> {
+            Intent intent = new Intent(MainActivity.this, TestRecyclerViewActivity.class);
             startActivity(intent);
         });
 

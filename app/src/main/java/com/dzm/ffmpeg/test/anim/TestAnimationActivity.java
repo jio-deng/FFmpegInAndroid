@@ -1,4 +1,4 @@
-package com.dzm.ffmpeg.test;
+package com.dzm.ffmpeg.test.anim;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -18,9 +18,9 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.dzm.ffmpeg.BaseActivity;
 import com.dzm.ffmpeg.R;
 import com.dzm.ffmpeg.databinding.ActivityAnimatorTestBinding;
 import com.dzm.ffmpeg.utils.ToastUtil;
@@ -31,7 +31,7 @@ import com.dzm.ffmpeg.utils.ToastUtil;
  * @description test Animator / Animation
  * @date 2020/8/10 9:06
  */
-public class AnimatorTest extends AppCompatActivity {
+public class TestAnimationActivity extends BaseActivity {
     private ActivityAnimatorTestBinding mDataBinding;
     private boolean isMenuOpen = false;
 

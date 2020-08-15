@@ -1,4 +1,4 @@
-package com.dzm.ffmpeg.test;
+package com.dzm.ffmpeg.test.anim;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

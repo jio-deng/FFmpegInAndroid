@@ -43,7 +43,8 @@
         <activity android:name=".webview.WebViewActivity" />
         <activity android:name=".tools.MorseCodeActivity" />
         <activity android:name=".cars.KnowCarsActivity" />
-        <activity android:name=".test.AnimatorTest" />
+        <activity android:name=".test.anim.TestAnimationActivity" />
+        <activity android:name=".test.rv.TestRecyclerViewActivity" />
 
         <activity android:name=".sdl.SDLActivity"
             android:label="@string/app_name"
