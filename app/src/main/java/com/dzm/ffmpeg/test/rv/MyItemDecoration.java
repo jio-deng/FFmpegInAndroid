@@ -37,7 +37,9 @@ public class MyItemDecoration extends RecyclerView.ItemDecoration {
         int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i ++) {
             View child = parent.getChildAt(i);
-            int type = mData.get(i).type;
+            int index = parent.getChildAdapterPosition(child);
+
+            int type = mData.get(index).type;
 
             // TODO
         }

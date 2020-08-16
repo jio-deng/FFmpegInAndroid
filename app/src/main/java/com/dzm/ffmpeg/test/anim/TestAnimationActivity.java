@@ -15,7 +15,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.ScaleAnimation;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -23,6 +22,7 @@ import androidx.databinding.DataBindingUtil;
 import com.dzm.ffmpeg.BaseActivity;
 import com.dzm.ffmpeg.R;
 import com.dzm.ffmpeg.databinding.ActivityAnimatorTestBinding;
+import com.dzm.ffmpeg.test.GuideView;
 import com.dzm.ffmpeg.utils.ToastUtil;
 
 /**
@@ -66,10 +66,13 @@ public class TestAnimationActivity extends BaseActivity {
         mDataBinding.btnMenuItem1.setOnClickListener(v -> mDataBinding.drawView.reset());
         mDataBinding.btnMenuItem2.setOnClickListener(v -> ToastUtil.makeText(this, "This is a loli!"));
 
-        ScaleAnimation animation = new ScaleAnimation(0f, 1f, 0f, 1f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        animation.setDuration(700);
+        showGuideView();
+    }
 
+    private void showGuideView() {
+        new GuideView(this)
+                .add(mDataBinding.btnInterpolator1)
+                .show();
     }
 
     private void testAnimatorScaleX() {
